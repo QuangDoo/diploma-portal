@@ -1,3 +1,34 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(89.37deg, #11277C -10.54%, #0000C5 99.92%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-hover:hover {
+    background: linear-gradient(89.37deg, #E02B1D -10.54%, #E02B1D 99.92%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-indent-20 {
+    text-indent: 20px;
+  }
+
+  .gradient-thead {
+    background: linear-gradient(89.37deg, #11277C -10.54%, #0000C5 99.92%);
+    color: white; /* Đảm bảo văn bản có màu trắng để dễ đọc */
+   
+  }
+}
+
+@layer base {
+}
+
+.rdp-vhidden {
+  @apply hidden;
+}
