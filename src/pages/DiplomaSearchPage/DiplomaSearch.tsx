@@ -6,7 +6,7 @@ function DiplomaSearch() {
       <Breadcrumb
         pathnames={[
           { label: 'Tra cứu', link: '/tra-cuu-van-bang' },
-          { label: 'Tra cứu văn bằng', link: '' },
+          { label: 'Tra cứu văn bằng', link: 'hello' },
         ]}
       />
     </div>
