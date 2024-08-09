@@ -40,10 +40,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build . -t ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}
+        run: docker build . -t ${{ secrets.DOCKER_USERNAME }}/diploma-portal:${{ github.sha }}
 
       - name: Push Docker image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/diploma-portal:${{ github.sha }}
 
   deploy-staging:
     runs-on: ubuntu-latest
@@ -57,10 +57,10 @@ jobs:
         run: |
           echo "Deploying the Docker image to staging server"
           sshpass -p "${{ secrets.VULTR_SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.VULTR_SERVER_IP }} \
-          "docker pull ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }} && \
-          docker stop my-app-staging || true && \
-          docker rm my-app-staging || true && \
-          docker run -d --name my-app-staging -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}"
+          "docker pull ${{ secrets.DOCKER_USERNAME }}/diploma-portal:${{ github.sha }} && \
+          docker stop diploma-portal-staging || true && \
+          docker rm diploma-portal-staging || true && \
+          docker run -d --name diploma-portal-staging -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/diploma-portal:${{ github.sha }}"
 
   deploy-production:
     runs-on: ubuntu-latest
@@ -71,8 +71,8 @@ jobs:
         run: |
           echo "Deploying the Docker image to production server"
           ssh user@production-server.com << 'EOF'
-            docker pull ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}
-            docker stop my-app || true
-            docker rm my-app || true
-            docker run -d --name my-app -p 80:8080 ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}
+            docker pull ${{ secrets.DOCKER_USERNAME }}/diploma-portal:${{ github.sha }}
+            docker stop diploma-portal || true
+            docker rm diploma-portal || true
+            docker run -d --name diploma-portal -p 80:8080 ${{ secrets.DOCKER_USERNAME }}/diploma-portal:${{ github.sha }}
           EOF
