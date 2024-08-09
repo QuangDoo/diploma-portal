@@ -4,8 +4,12 @@ FROM node:20
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy the package.json and package-lock.json
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Copy the package.json and pnpm-lock.yaml (assuming you use pnpm)
 COPY package*.json ./
+COPY pnpm-lock.yaml ./
 
 # Install dependencies
 RUN pnpm install
