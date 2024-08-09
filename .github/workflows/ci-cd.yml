@@ -50,10 +50,13 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/develop'
     steps:
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
       - name: Deploy to Staging
         run: |
           echo "Deploying the Docker image to staging server"
-          ssh user@staging-server.com << 'EOF'
+          sshpass -p ${{ secrets.VULTR_SERVER_PASSWORD }} ssh -o StrictHostKeyChecking=no root@${{ secrets.VULTR_SERVER_IP }} << 'EOF'
             docker pull ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }}
             docker stop my-app-staging || true
             docker rm my-app-staging || true
