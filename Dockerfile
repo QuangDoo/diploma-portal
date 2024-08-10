@@ -1,4 +1,4 @@
-# Stage 1: Build the application with the latest Node.js version
+# Stage 1: Build the application
 FROM node:current-alpine AS builder
 
 # Create app directory
