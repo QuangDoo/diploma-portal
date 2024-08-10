@@ -1,24 +1,37 @@
-# Use the latest official Node.js runtime as a parent image
-FROM node:current
+# Stage 1: Build the application
+FROM node:18-alpine AS builder
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Create app directory
+RUN mkdir -p /app
+WORKDIR /app
 
-# Install pnpm globally
+# Install pnpm
 RUN npm install -g pnpm
 
-# Copy the package.json and pnpm-lock.yaml (assuming you use pnpm)
-COPY package*.json ./
-COPY pnpm-lock.yaml ./
+# Copy package.json and pnpm-lock.yaml to install dependencies
+COPY package.json pnpm-lock.yaml ./
 
-# Install dependencies
+# Install dependencies using pnpm
 RUN pnpm install
 
 # Copy the rest of the application files
 COPY . .
 
-# Expose the port the app runs on
-EXPOSE 8080
+# Build the application
+RUN pnpm run build
 
-# Command to run the app
-CMD ["pnpm", "start"]
+# Stage 2: Serve the application
+FROM node:18-alpine
+
+# Create app directory
+RUN mkdir -p /app
+WORKDIR /app
+
+# Copy built files from the builder stage
+COPY --from=builder /app/dist /app
+
+# Expose the port the app runs on
+EXPOSE 4173
+
+# Command to run the app in preview mode
+CMD ["pnpm", "preview", "--host", "0.0.0.0"]
