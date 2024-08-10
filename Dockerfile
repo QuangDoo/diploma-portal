@@ -1,5 +1,5 @@
-# Stage 1: Build the application
-FROM node:18-alpine AS builder
+# Stage 1: Build the application with the latest Node.js version
+FROM node:current-alpine AS builder
 
 # Create app directory
 RUN mkdir -p /app
@@ -21,7 +21,7 @@ COPY . .
 RUN pnpm run build
 
 # Stage 2: Serve the application
-FROM node:18-alpine
+FROM node:current-alpine
 
 # Create app directory
 RUN mkdir -p /app
