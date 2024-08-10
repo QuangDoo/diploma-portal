@@ -60,7 +60,7 @@ jobs:
           "docker pull ${{ secrets.DOCKER_USERNAME }}/diploma-portal:${{ github.sha }} && \
           docker stop diploma-portal-staging || true && \
           docker rm diploma-portal-staging || true && \
-          docker run -d --name diploma-portal-staging -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/diploma-portal:${{ github.sha }}"
+          docker run -d --name diploma-portal-staging -p 4173:4173 ${{ secrets.DOCKER_USERNAME }}/diploma-portal:${{ github.sha }}"
 
   deploy-production:
     runs-on: ubuntu-latest
